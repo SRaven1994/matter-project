@@ -105,7 +105,7 @@ class BaseScene extends Phaser.Scene {
             this.cameras.main.fade(250, 0, 0, 0)
             this.cameras.main.once("camerafadeoutcomplete", function(){
               this.scene.restart()
-            })
+            }, this)
           }
         }
       },
