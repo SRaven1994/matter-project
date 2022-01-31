@@ -13,6 +13,21 @@ class Player {
     .setBounce(0.01)
     .setFriction(0.0001)
     .setMass(1)
+    // Animations
+    this.scene.anims.create({
+      key: "idle",
+      frames: this.scene.anims.generateFrameNumbers("player", {start: 0, end: 3}),
+      frameRate: 3,
+      repeat: -1
+    })
+    this.scene.anims.create({
+      key: "run",
+      frames: this.scene.anims.generateFrameNumbers("player", {start: 8, end: 15}),
+      frameRate: 3,
+      repeat: -1
+    })  
+  
+    // Controls
     this.scene.input.on("pointerdown", this.handlePointerDown, this)
     this.scene.input.on("pointerup", this.handlePointerUp, this)
   }
@@ -21,6 +36,7 @@ class Player {
     this.touchData.startY = pointer.y
   }
   handlePointerUp(pointer) {
+    this.scene.scale.startFullscreen()
     this.touchData.endX = pointer.x
     this.touchData.endY = pointer.y
     this.handleTouch()
@@ -54,8 +70,15 @@ class Player {
     if(this.moveUp){
       this.sprite.applyForce({x:0, y : -yForce})
     }
+    if(this.sprite.body.force.x != 0){
+      this.sprite.anims.play("run", true)
+    }else{
+      this.sprite.anims.play("idle", true)
+    }
     this.moveLeft = this.moveRight = this.moveUp = false
   }
   freeze() {
+    this.sprite.setStatic(true)
+    this.isFrozen = true
   }
 }

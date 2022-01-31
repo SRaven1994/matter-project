@@ -3,7 +3,16 @@ class BaseScene extends Phaser.Scene {
   tileDataKey
   /** @type {string} */
   tileDataSource
+  /** @type {Player} */
   player
+  /** @type {number} */
+  emojiMax = 10
+  /** @type {number} */
+  emojiCount
+  /** @type {number} */
+  emojiInterval = 3000
+  // @ts-ignore
+  matterCollision
   constructor(id) {
     super(id)
     /** @type {string} */
@@ -29,6 +38,7 @@ class BaseScene extends Phaser.Scene {
     })
   }
   create() {
+    this.emojiCount = 0
     const map = this.make.tilemap({key: this.tileDataKey})
     const tileset = map.addTilesetImage("kenney-tileset")
     map.createLayer("background", tileset, 0, 0)
@@ -37,6 +47,8 @@ class BaseScene extends Phaser.Scene {
     platformLayer.setCollisionByProperty({collides: true})
     this.matter.world.convertTilemapLayer(platformLayer)
     const objectLayer = map.getObjectLayer("objectLayer")
+    let emojiDeathPlane
+    let exitPlane
     objectLayer.objects.forEach(function(object){
       // Get correctly formatted objects
       let obj = Utils.RetrieveCustomProperties(object)
@@ -47,8 +59,58 @@ class BaseScene extends Phaser.Scene {
           this.player.sprite.destroy()
         }
         this.player = new Player(this, obj.x, obj.y)
+      }else if(obj.type === "emojiSpawn"){
+        // @ts-ignore
+        this.emojiSpawnPoint = {x: obj.x, y: obj.y}
+      }else if(obj.type === "emojiDeathRect"){
+        // @ts-ignore
+        emojiDeathPlane = this.matter.add.rectangle(obj.x + obj.width/2, obj.y + obj.height/2, obj.width, obj.height, {isStatic: true, isSensor: true})
+      }else if(obj.type === "exitRect"){
+        // @ts-ignore
+        exitPlane = this.matter.add.rectangle(obj.x + obj.width/2, obj.y + obj.height/2, obj.width, obj.height, {isStatic: true, isSensor: true})
       }
     }, this)
+    this.time.addEvent({
+      delay: this.emojiInterval,
+      callback: this.makeEmoji,
+      callbackScope: this,
+      loop: true
+    })
+    this.matterCollision.addOnCollideStart({
+      objectA: emojiDeathPlane,
+      callback: function(eventData){
+        let gameObjectB = eventData.gameObjectB
+        if(gameObjectB instanceof Phaser.Physics.Matter.Image && gameObjectB.texture.key === "emoji"){
+          gameObjectB.destroy()
+          this.emojiCount--
+        }
+      },
+      context: this
+    })
+    this.matterCollision.addOnCollideStart({
+      objectA: this.player.sprite,
+      objectB: exitPlane,
+      callback: function(eventData){
+        this.changeScene()
+      },
+      context: this
+    })
+    this.matterCollision.addOnCollideStart({
+      objectA: this.player.sprite,
+      callback: function(eventData){
+        let gameObjectB = eventData.gameObjectB
+        if(gameObjectB instanceof Phaser.Tilemaps.Tile && gameObjectB.properties.isDeadly){
+          {
+            this.player.freeze()
+            this.cameras.main.fade(250, 0, 0, 0)
+            this.cameras.main.once("camerafadeoutcomplete", function(){
+              this.scene.restart()
+            })
+          }
+        }
+      },
+      context:this
+    })
     this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels)
     this.cameras.main.startFollow(this.player.sprite, false, 0,5, 0,5)
     this.matter.world.setBounds(0, 0, map.widthInPixels, map.heightInPixels)
@@ -57,6 +119,19 @@ class BaseScene extends Phaser.Scene {
     this.player.update()
   }
   makeEmoji() {
+    if(this.emojiCount >= this.emojiMax){
+      return
+    }
+    const texture = this.textures.get("emoji")
+    const frame = Phaser.Math.Between(0, texture.frameTotal - 1)
+    let emoji = this.matter.add.image(this.emojiSpawnPoint.x, this.emojiSpawnPoint.y, "emoji", frame, {
+      restitution: 1,
+      friction: 0.1,
+      density: 0.001,
+      // @ts-ignore
+      shape: "circle"
+    }).setScale(0.5)
+    this.emojiCount++
   }
   changeScene() {
   }
