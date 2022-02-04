@@ -6,6 +6,8 @@ class BaseScene extends Phaser.Scene {
   /** @type {Player} */
   player
   /** @type {number} */
+  levelCount = 1
+  /** @type {number} */
   emojiMax = 10
   /** @type {number} */
   emojiCount
@@ -23,6 +25,7 @@ class BaseScene extends Phaser.Scene {
   preload() {
     this.load.tilemapTiledJSON(this.tileDataKey, this.tileDataSource)
     this.load.image('kenney-tileset', 'assets/tiles/kenney-tileset-64px-extruded.png')
+    this.load.image("box", "assets/sprites/box.png")
     this.load.spritesheet(
       'player',
       'assets/sprites/0x72-industrial-player-32px-extruded.png', {
@@ -134,5 +137,12 @@ class BaseScene extends Phaser.Scene {
     this.emojiCount++
   }
   changeScene() {
+    if(this.levelCount == 1){
+      this.levelCount ++
+      this.scene.start("sceneB")
+    }else if(this.levelCount == 2){
+      this.levelCount ++
+      this.scene.start("sceneC")
+    }  
   }
 }

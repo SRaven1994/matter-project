@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.4" tiledversion="1.4.3" orientation="orthogonal" renderorder="right-down" width="8" height="24" tilewidth="64" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="5">
+<map version="1.5" tiledversion="1.7.2" orientation="orthogonal" renderorder="right-down" width="8" height="24" tilewidth="64" tileheight="64" infinite="0" nextlayerid="5" nextobjectid="5">
  <editorsettings>
   <export target="slopes.json" format="json"/>
  </editorsettings>
@@ -143,6 +143,12 @@
   <tile id="118">
    <properties>
     <property name="collides" type="bool" value="true"/>
+   </properties>
+  </tile>
+  <tile id="279">
+   <properties>
+    <property name="collides" type="bool" value="true"/>
+    <property name="isDeadly" type="bool" value="true"/>
    </properties>
   </tile>
  </tileset>

@@ -1,12 +1,4 @@
 { "compressionlevel":-1,
- "editorsettings":
-    {
-     "export":
-        {
-         "format":"json",
-         "target":"slopes.json"
-        }
-    },
  "height":24,
  "infinite":false,
  "layers":[
@@ -107,7 +99,7 @@
  "nextobjectid":5,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tiledversion":"1.4.3",
+ "tiledversion":"1.7.2",
  "tileheight":64,
  "tilesets":[
         {
@@ -199,7 +191,6 @@
                  "objectgroup":
                     {
                      "draworder":"index",
-                     "id":2,
                      "name":"",
                      "objects":[
                             {
@@ -244,7 +235,6 @@
                  "objectgroup":
                     {
                      "draworder":"index",
-                     "id":2,
                      "name":"",
                      "objects":[
                             {
@@ -347,7 +337,6 @@
                  "objectgroup":
                     {
                      "draworder":"index",
-                     "id":2,
                      "name":"",
                      "objects":[
                             {
@@ -396,7 +385,6 @@
                  "objectgroup":
                     {
                      "draworder":"index",
-                     "id":2,
                      "name":"",
                      "objects":[
                             {
@@ -493,11 +481,25 @@
                          "type":"bool",
                          "value":true
                         }]
+                }, 
+                {
+                 "id":279,
+                 "properties":[
+                        {
+                         "name":"collides",
+                         "type":"bool",
+                         "value":true
+                        }, 
+                        {
+                         "name":"isDeadly",
+                         "type":"bool",
+                         "value":true
+                        }]
                 }],
          "tilewidth":64
         }],
  "tilewidth":64,
  "type":"map",
- "version":1.4,
+ "version":"1.6",
  "width":8
 }
