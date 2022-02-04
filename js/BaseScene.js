@@ -21,6 +21,8 @@ class BaseScene extends Phaser.Scene {
     this.id = id
     /** @type {object} */
     this.emojiSpawnPoint = {}
+    /** @type {object} */
+    this.boxSpawnPoint
   }
   preload() {
     this.load.tilemapTiledJSON(this.tileDataKey, this.tileDataSource)
@@ -71,6 +73,10 @@ class BaseScene extends Phaser.Scene {
       }else if(obj.type === "exitRect"){
         // @ts-ignore
         exitPlane = this.matter.add.rectangle(obj.x + obj.width/2, obj.y + obj.height/2, obj.width, obj.height, {isStatic: true, isSensor: true})
+      }else if(obj.type === "boxSpawn"){
+        this.boxSpawnPoint = {x: obj.x, y: obj.y}
+        // @ts-ignore
+        this.boxSpawnPoint = this.makeBox()
       }
     }, this)
     this.time.addEvent({
@@ -136,12 +142,21 @@ class BaseScene extends Phaser.Scene {
     }).setScale(0.5)
     this.emojiCount++
   }
+  makeBox(){
+    const texture = this.textures.get("box")
+    let box = this.matter.add.image(this.boxSpawnPoint.x, this.boxSpawnPoint.y, "box", 0, {
+      restitution: 0,
+      friction: 0,
+      density: 0.001,
+    }).setScale(2)
+    
+    
+
+  }
   changeScene() {
-    if(this.levelCount == 1){
-      this.levelCount ++
+    if(this.id == "sceneA"){
       this.scene.start("sceneB")
-    }else if(this.levelCount == 2){
-      this.levelCount ++
+    }else if(this.id == "sceneB"){
       this.scene.start("sceneC")
     }  
   }
