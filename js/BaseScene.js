@@ -5,8 +5,6 @@ class BaseScene extends Phaser.Scene {
   tileDataSource
   /** @type {Player} */
   player
-  /** @type {object} */
-  box
   /** @type {number} */
   levelCount = 1
   /** @type {number} */
