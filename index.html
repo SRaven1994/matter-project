@@ -11,6 +11,8 @@
     <script src="js/SceneA.js"></script>
     <script src="js/SceneB.js"></script>
     <script src="js/SceneC.js"></script>
+    <script src="js/SceneD.js"></script>
+    <script src="js/SceneE.js"></script>
     <script src="js/Utils.js"></script>
     <style>
         html,
@@ -33,7 +35,7 @@
         let config = {
             type: Phaser.AUTO,
             width: 64 * 8,
-            height: 64 * 24,
+            height: 24 * 24,
             scale: {
                 mode: Phaser.Scale.FIT,
                 autoCenter: Phaser.Scale.CENTER_BOTH
@@ -62,7 +64,7 @@
                     }
                 ]
             },
-            scene: [SceneC, SceneB, SceneA],
+            scene: [SceneE, SceneB, SceneC, SceneD, SceneA],
         };
         let game = new Phaser.Game(config);
     </script>
