@@ -256,13 +256,30 @@ class BaseScene extends Phaser.Scene {
   }
   changeScene() {
     if(this.id == "sceneA"){
+      this.minutes = 0
+      this.seconds = 0
+      this.milSeconds = 0
       this.scene.start("sceneB")
     }else if(this.id == "sceneB"){
+      this.minutes = 0
+      this.seconds = 0
+      this.milSeconds = 0
       this.scene.start("sceneC")
     }else if(this.id == "sceneC"){
+      this.minutes = 0
+      this.seconds = 0
+      this.milSeconds = 0
       this.scene.start("sceneD")
     }else if(this.id == "sceneD"){
+      this.minutes = 0
+      this.seconds = 0
+      this.milSeconds = 0
       this.scene.start("sceneE")
+    }else if (this.id == "sceneE"){
+      this.minutes = 0
+      this.seconds = 0
+      this.milSeconds = 0
+      this.scene.start("sceneA")
     }  
   }
 }
